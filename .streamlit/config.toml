@@ -1,0 +1,10 @@
+[theme]
+base = "light"
+primaryColor = "#1d4ed8"
+backgroundColor = "#f2f4f6"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#00131f"
+font = "'Sofia Sans':https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;500;600;700;800&display=swap, sans-serif"
+
+[server]
+headless = true

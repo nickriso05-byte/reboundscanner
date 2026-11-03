@@ -1,0 +1,299 @@
+/* Every colour here comes from a token emitted by theme.py, so the same rules
+   serve both themes and neither can drift out of step with the other. */
+
+html, body, [class*="css"], .stApp {
+  font-family: "Sofia Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.stApp { background: var(--bg); }
+[data-testid="stAppViewContainer"], [data-testid="stMain"] { background: var(--bg); }
+
+/* Strip Streamlit chrome */
+[data-testid="stHeader"] { background: transparent; height: 0; }
+#MainMenu, footer, [data-testid="stToolbar"] { visibility: hidden; height: 0; }
+/* Both sidebar controls: the one that collapses it and the one that brings it
+   back. Streamlit paints these with a hardcoded dark ink that vanishes on a
+   dark ground, so the colour has to be forced from the token set. */
+[data-testid="stExpandSidebarButton"],
+[data-testid="stSidebarCollapseButton"] button,
+[data-testid="stBaseButton-headerNoPadding"] {
+  visibility: visible !important; opacity: 1 !important;
+  color: var(--ink) !important;
+  background: var(--panel) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 8px;
+}
+[data-testid="stExpandSidebarButton"]:hover,
+[data-testid="stSidebarCollapseButton"] button:hover,
+[data-testid="stBaseButton-headerNoPadding"]:hover {
+  color: var(--accent) !important; border-color: var(--accent) !important;
+}
+[data-testid="stSidebarCollapseButton"] svg,
+[data-testid="stBaseButton-headerNoPadding"] svg { fill: currentColor; }
+.block-container { padding: 1.4rem 2rem 4rem; max-width: 1600px; }
+
+h1, h2, h3, h4 { color: var(--ink); letter-spacing: -0.01em; font-weight: 700; }
+p, li, span { color: var(--ink-2); }
+
+/* ── masthead: the Paradigm bar ─────────────────────────────────────────────
+   Navy, with the wordmark in white and an orange rule underneath, the way the
+   paradigmpressgroup.com header carries it. The bar is the keyed container
+   around the title row, so the Dark toggle sits inside it. */
+.st-key-masthead {
+  background:
+    radial-gradient(120% 180% at 100% 0%, rgba(88,122,160,.32) 0%, transparent 55%),
+    var(--mast);
+  border-radius: 12px;
+  border-bottom: 3px solid var(--brand);
+  padding: 14px 24px 13px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 22px var(--shadow);
+}
+.masthead {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  padding: 0; margin: 0; border: 0;
+}
+.mh-logo { color: var(--mast-ink); display: inline-flex; line-height: 0; }
+.mh-logo svg { height: 24px; width: auto; display: block; }
+.mh-rule { width: 1px; height: 30px; background: rgba(255,255,255,.22); }
+.masthead h1 {
+  font-family: "Libre Caslon Text", Georgia, "Times New Roman", serif !important;
+  font-size: 25px !important; font-weight: 400 !important; margin: 0 !important;
+  padding: 0 !important; color: var(--mast-ink) !important;
+  letter-spacing: -0.005em; line-height: 1.2;
+}
+.mh-tag {
+  font-family: "Sofia Sans", sans-serif; font-size: 11px; font-weight: 800;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--mast-brand);
+  margin-left: 12px; position: relative; top: -3px;
+}
+/* The theme toggle sits in the bar, pushed right and vertically centred. */
+.theme-slot { display: flex; justify-content: flex-end; align-items: center; }
+.masthead h1 > span { color: inherit !important; }
+.masthead [data-testid="stHeaderActionElements"] { display: none; }
+/* Off, the toggle's track is a dark tint that vanishes on the navy bar. */
+.st-key-masthead label[data-baseweb="checkbox"]:has(input:not(:checked)) > div:first-child:has(> div:empty) {
+  background: rgba(255,255,255,.24) !important;
+}
+/* Streamlit renders a toggle as stCheckbox. */
+.st-key-masthead [data-testid="stCheckbox"] { margin-bottom: 0; justify-content: flex-end; }
+.st-key-masthead [data-testid="stCheckbox"] p {
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--mast-muted) !important;
+}
+
+/* ── tabs: page-like, with the active one joined to the content below ─────── */
+.stTabs [data-baseweb="tab-list"] {
+  gap: 3px; background: transparent; padding: 0;
+  border: none; border-bottom: 1px solid var(--line); border-radius: 0;
+}
+.stTabs [data-baseweb="tab"] {
+  height: auto; padding: 10px 20px 11px;
+  border: 1px solid transparent; border-bottom: none;
+  border-radius: 9px 9px 0 0; background: transparent;
+  margin-bottom: -1px;                 /* sit on the rule, not above it */
+  transition: background .13s ease, color .13s ease, border-color .13s ease;
+}
+.stTabs [data-baseweb="tab"] p {
+  font-size: 12px !important; font-weight: 700 !important; margin: 0 !important;
+  text-transform: uppercase; letter-spacing: 0.11em;
+}
+.stTabs [data-baseweb="tab"][aria-selected="false"] p { color: var(--muted) !important; }
+.stTabs [data-baseweb="tab"]:hover { background: var(--panel-alt); }
+.stTabs [data-baseweb="tab"]:hover p { color: var(--accent) !important; }
+/* The selected tab becomes the top edge of the page it opens: same surface,
+   borders on three sides, and the rule beneath it erased. */
+.stTabs button[data-baseweb="tab"][aria-selected="true"] {
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: 0 3px 0 var(--brand) inset, 0 1px 0 var(--panel);
+}
+.stTabs button[data-baseweb="tab"][aria-selected="true"] p {
+  color: var(--ink) !important; font-weight: 800 !important;
+}
+.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display: none; }
+.stTabs [data-baseweb="tab-panel"] { padding-top: 16px; }
+
+/* The sector-flow switch sits under each table. It is a secondary view, so it
+   is styled as a quiet label rather than a control competing with the results. */
+.stTabs [data-baseweb="tab-panel"] [data-testid="stToggle"] {
+  margin-top: 10px;
+}
+.stTabs [data-baseweb="tab-panel"] [data-testid="stToggle"] p {
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted) !important;
+}
+
+/* ── section lead-in ──────────────────────────────────────────────────────── */
+.lead { font-size: 13px; color: var(--ink-2); line-height: 1.6; max-width: 900px; }
+.lead b { color: var(--ink); font-weight: 600; }
+.empty {
+  border: 1px dashed var(--line); border-radius: 10px;
+  padding: 30px; text-align: center; color: var(--muted);
+  font-size: 13px; background: var(--panel);
+}
+
+/* ── the Filters box: a control bar, not a generic disclosure ─────────────── */
+[data-testid="stExpander"] {
+  border: 1px solid var(--line) !important; border-radius: 10px;
+  background: var(--panel) !important; overflow: hidden;
+  box-shadow: 0 1px 2px var(--shadow);
+}
+[data-testid="stExpander"] summary {
+  padding: 9px 14px; background: var(--panel-alt);
+  border-bottom: 1px solid transparent;
+  transition: background .13s ease, border-color .13s ease;
+}
+[data-testid="stExpander"] summary p {
+  color: var(--ink) !important; font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase; letter-spacing: 0.09em;
+}
+[data-testid="stExpander"] summary:hover { background: var(--accent-soft); }
+[data-testid="stExpander"] summary:hover p { color: var(--accent) !important; }
+/* Open: the header keeps the tinted ground and grows a rule, so it reads as
+   the top of an open drawer rather than a button that happens to be pressed. */
+[data-testid="stExpander"] details[open] summary {
+  background: var(--accent-soft); border-bottom-color: var(--line);
+}
+[data-testid="stExpander"] details[open] summary p { color: var(--accent) !important; }
+[data-testid="stExpander"] summary svg { fill: var(--accent); }
+[data-testid="stExpanderDetails"] { padding-top: 10px; }
+
+/* Controls inside it get the same labels as the sidebar cards. */
+[data-testid="stExpanderDetails"] [data-testid="stWidgetLabel"] p {
+  font-size: 11px !important; font-weight: 600 !important;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted) !important;
+}
+
+/* ── sidebar: grouped cards rather than a stack of loose controls ─────────── */
+[data-testid="stSidebar"] {
+  background: var(--bg); border-right: 1px solid var(--line);
+}
+[data-testid="stSidebar"] > div:first-child { padding-top: 1.1rem; }
+
+.side-title {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 8px 2px; display: flex; align-items: center; gap: 7px;
+}
+.side-title::after {
+  content: ""; flex: 1; height: 1px; background: var(--line);
+}
+
+/* One card per group, so the sidebar reads as sections instead of a list. */
+[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] {
+  background: var(--panel); border: 1px solid var(--line) !important;
+  border-radius: 11px; box-shadow: 0 1px 2px var(--shadow);
+  margin-bottom: 15px;
+}
+[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] > div {
+  padding: 2px 2px 0;
+}
+.side-note {
+  font-size: 11px; color: var(--muted); line-height: 1.5;
+  border-top: 1px dashed var(--line); padding: 8px 1px 2px; margin-top: 2px;
+}
+.side-note b { color: var(--ink-2); }
+
+/* Widget labels inside the cards */
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p {
+  font-size: 11px !important; font-weight: 600 !important;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted) !important;
+}
+
+/* Sliders */
+[data-testid="stSlider"] { padding-bottom: 2px; }
+[data-baseweb="slider"] [role="slider"] {
+  background: var(--panel) !important;
+  border: 3px solid var(--brand) !important;
+  box-shadow: 0 1px 3px var(--shadow) !important;
+}
+[data-testid="stSliderTickBarMin"], [data-testid="stSliderTickBarMax"] {
+  color: var(--muted) !important; font-size: 10px !important;
+}
+[data-testid="stThumbValue"] {
+  color: var(--brand) !important; font-weight: 700 !important; font-size: 12px !important;
+}
+
+/* Inputs */
+[data-baseweb="select"] > div,
+[data-testid="stNumberInput"] input,
+[data-testid="stTextInput"] input {
+  border-radius: 8px !important;
+  border-color: var(--line) !important;
+  background: var(--panel) !important;
+  color: var(--ink) !important;
+  font-size: 13px !important;
+}
+[data-testid="stNumberInput"] button {
+  background: var(--panel-alt) !important; border-color: var(--line) !important;
+}
+[data-testid="stNumberInput"] button svg { fill: var(--muted); }
+[data-baseweb="select"] svg { fill: var(--muted); }
+[data-baseweb="popover"] ul, [data-baseweb="menu"] {
+  background: var(--panel) !important; border: 1px solid var(--line) !important;
+}
+[data-baseweb="menu"] li { color: var(--ink) !important; }
+[data-baseweb="menu"] li:hover { background: var(--accent-soft) !important; }
+
+/* Toggle */
+/* Streamlit tints an off switch for a light ground only, so on dark navy the
+   track disappears. The track is the one with the knob inside it. */
+label[data-baseweb="checkbox"]:has(input:not(:checked)) > div:first-child:has(> div:empty) {
+  background: var(--toggle-off) !important;
+}
+[data-testid="stSidebar"] [data-testid="stCheckbox"] p,
+[data-testid="stSidebar"] [data-testid="stToggle"] p {
+  font-size: 12px !important; font-weight: 600 !important;
+  text-transform: none; letter-spacing: 0; color: var(--ink-2) !important;
+}
+
+/* Buttons */
+.stButton button {
+  border-radius: 6px; font-weight: 700; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+  transition: filter .14s ease; padding: 9px 14px;
+}
+.stButton button:hover { filter: brightness(1.12); border-color: var(--accent); }
+.stButton button p { color: var(--accent-ink) !important; }
+
+/* Alerts */
+[data-testid="stAlert"] {
+  background: var(--panel) !important; border: 1px solid var(--line) !important;
+  border-radius: 10px; color: var(--ink) !important;
+}
+[data-testid="stAlert"] p { color: var(--ink-2) !important; }
+
+/* Progress */
+[data-testid="stProgress"] div[role="progressbar"] > div { background: var(--accent) !important; }
+
+/* ── the password gate ────────────────────────────────────────────────────── */
+.gate {
+  margin: 14vh 0 22px; padding: 26px 24px 22px; text-align: center;
+  background: radial-gradient(120% 180% at 100% 0%, rgba(88,122,160,.32) 0%, transparent 55%), var(--mast);
+  border-radius: 12px; border-bottom: 3px solid var(--brand);
+  box-shadow: 0 6px 22px var(--shadow);
+}
+.gate .mh-logo { color: var(--mast-ink); display: inline-flex; }
+.gate .mh-logo svg { height: 26px; width: auto; }
+.gate h1 {
+  font-family: "Libre Caslon Text", Georgia, serif !important; font-weight: 400 !important;
+  font-size: 26px !important; color: var(--mast-ink) !important;
+  margin: 14px 0 0 !important; padding: 0 !important;
+}
+.gate h1 > span { color: inherit !important; }
+.gate [data-testid="stHeaderActionElements"] { display: none; }
+.gate-note { text-align: center; font-size: 13px; color: var(--muted); margin-top: 6px; }
+.gate-note b { color: var(--ink); }
+.gate-note.bad { color: var(--down); }
+[data-testid="stForm"] .stButton button, [data-testid="stFormSubmitButton"] button {
+  background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent);
+  border-radius: 6px; font-weight: 700; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+[data-testid="stFormSubmitButton"] button p { color: var(--accent-ink) !important; }

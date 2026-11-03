@@ -1,0 +1,8 @@
+streamlit>=1.57.0
+pandas>=2.2
+numpy>=1.26
+requests>=2.31
+pyarrow>=14.0
+plotly>=5.20
+lxml>=4.9.0
+html5lib>=1.1
